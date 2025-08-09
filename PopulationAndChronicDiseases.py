@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sun May 11 21:43:25 2025
-
-@author: USER
-"""
-
 import pandas as pd
 import numpy as np
 import os
@@ -34,11 +27,6 @@ with engine.connect() as con:
     print("已連接 MySQL")
 #%%
 #######匯入CSV檔到mysql#######
-################!!!!!!!!把資料匯入SQL###不要重複執行!!!!!!###################
-################!!!!!!!!把資料匯入SQL###不要重複執行!!!!!!###################
-################!!!!!!!!把資料匯入SQL###不要重複執行!!!!!!###################
-################!!!!!!!!把資料匯入SQL###不要重複執行!!!!!!###################
-################!!!!!!!!把資料匯入SQL###不要重複執行!!!!!!###################
 # 查詢資料夾裡所有檔案
 dirpath = r'C:\Users\USER\Desktop\mypy\data_source_5y'
 allfiles = [f for f in os.listdir(dirpath) if f.endswith('.csv')]
@@ -64,11 +52,6 @@ for file in allfiles:
         print(f"寫入 {table_name} 失敗：{f}")
 
 print("寫入完成")
-################!!!!!!!!把資料匯入SQL###不要重複執行!!!!!!###################
-################!!!!!!!!把資料匯入SQL###不要重複執行!!!!!!###################
-################!!!!!!!!把資料匯入SQL###不要重複執行!!!!!!###################
-################!!!!!!!!把資料匯入SQL###不要重複執行!!!!!!###################
-################!!!!!!!!把資料匯入SQL###不要重複執行!!!!!!###################
 #%%
 #######連線到mysql資料庫抓資料#######
 inspector = inspect(engine)
@@ -210,7 +193,6 @@ senior_ratios = [s / t * 100 for s, t in zip(senior_pops, total_population)]
 plt.rcParams["font.family"] = "Microsoft JhengHei"
 plt.rcParams["axes.unicode_minus"] = False
 
-
 #######換算成千萬人單位#######
 def millions(x, pos):
     return '%1.3f' % (x * 1e-7)
@@ -348,15 +330,6 @@ for i, age_group in enumerate(age_groups):
             if population_col:
                 df_clean[population_col] = df_clean[population_col].apply(pd.to_numeric, errors='coerce').fillna(0).astype(int)
                 population_by_year.append(df_clean[population_col].sum().sum())
-        #     else:
-        #         population_col_alt = [col for col in df.columns if col == 'A100UP_CNT'] # 處理舊資料
-        #         if population_col_alt:
-        #             df_clean[population_col_alt] = df_clean[population_col_alt].apply(pd.to_numeric, errors='coerce').fillna(0).astype(int)
-        #             population_by_year.append(df_clean[population_col_alt].sum().sum())
-        #         else:
-        #             population_by_year.append(0) # 如果找不到資料就補0
-        # else:
-        #     population_by_year.append(0) # 如果找不到資料就補0
 
     plt.plot(western_years, population_by_year, marker='o', label=age_labels[i])
 
@@ -388,7 +361,7 @@ for table in sorted_target_tables:
     # df_clean_year = df_raw_year.iloc[1:23, :].replace(',', '', regex=True) # 前22行是縣市數據，第23行是總計
 
     # 在這裡對整個 DataFrame 進行替換逗號和轉換為數值
-    # 我們將所有可能包含數值的欄位轉換
+    # 將所有可能包含數值的欄位轉換
     data_columns_to_convert = [col for col in df_raw_year.columns if '_CNT' in col]
     
     # 複製一份 DataFrame 以避免 SettingWithCopyWarning
@@ -433,15 +406,11 @@ for table in sorted_target_tables:
 
         # 對於每個縣市，獲取其男性和女性人口數
         for row_idx, city in enumerate(city_names):
-            # 使用 .loc 確保獲取的是正確行的數據
-            # 注意：df_processed_year 的索引可能與 df_raw_year 不同，如果 df_processed_year 是 .iloc[1:23, :] 得到的
-            # 最好使用原始的 .loc 或直接根據 row_idx 訪問處理後的 DataFrame
             
             # 確保索引在 df_processed_year 範圍內
             if row_idx >= len(df_processed_year):
                 continue
             
-            # 使用 .iloc 搭配 row_idx，因為我們是基於數字索引處理的 df_processed_year
             male_population = 0
             female_population = 0
 
@@ -480,9 +449,7 @@ for table in sorted_target_tables:
     df_pyramid['Population_Male'] = df_pyramid.apply(lambda row: -row['Population'] if row['Gender'] == '男性' else 0, axis=1)
     df_pyramid['Population_Female'] = df_pyramid.apply(lambda row: row['Population'] if row['Gender'] == '女性' else 0, axis=1)
 
-    # 重新排序年齡組，讓年輕的在下，年老的在上
-    # 如果你的 age_labels 已經是正確的順序，這裡可以這麼做
-    age_order_pyramid = age_labels # 假設 age_labels 已經定義且順序正確
+    age_order_pyramid = age_labels
 
     # 創建一個新的 DataFrame，用於繪圖
     df_pyramid_plot = pd.DataFrame({
@@ -548,7 +515,7 @@ for table in sorted_target_tables:
     plt.savefig(full_save_path, dpi=300, bbox_inches='tight', facecolor='white')
     plt.close() # 關閉圖形以釋放記憶體
 
-# 最後的訊息也需要使用正確的資料夾變數
+
 print(f"所有 {len(sorted_target_tables)} 張圖表已儲存至：{myfolder}")
 
 #%%
