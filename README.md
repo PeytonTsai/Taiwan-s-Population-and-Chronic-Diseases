@@ -1,4 +1,4 @@
-# 台灣人口與高齡慢性病分析 Taiwan's Population and Chronic Diseases
+# 台灣人口與高齡慢性病分析
 ＊此檔案作為練習數據分析及練習機器學習使用＊
 
 分析目的
